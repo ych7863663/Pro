@@ -1,0 +1,3 @@
+#!/bin/sh
+export-html "$@"
+exec mdoc export-html "$@"
