@@ -10,7 +10,7 @@ public class BuildScript
 
         string[] scenes =
         {
-            "Assets/Scenes/Main.unity"
+            "Assets/Scenes/Main.scene"
         };
 
         BuildPlayerOptions options = new BuildPlayerOptions
