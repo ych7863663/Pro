@@ -1,3 +1,4 @@
+ using System.IO;
  using HybridCLR.Editor.Commands;
  using HybridCLR.Editor.Installer;
  
@@ -6,7 +7,9 @@
      public static void InitHybridCLR()
      {
          var installer = new InstallerController();
-         if (!installer.HasInstalledHybridCLR())
+         var deployDir = "HybridCLRData/LocalIl2CppData-WindowsEditor/il2cpp/build/deploy";
+ 
+         if (!installer.HasInstalledHybridCLR() || !Directory.Exists(deployDir))
          {
              installer.InstallDefaultHybridCLR();
          }
