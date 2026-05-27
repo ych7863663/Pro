@@ -1,30 +1,35 @@
-using System.Linq;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 public class BuildScript
 {
     public static void BuildWindows()
     {
-        string outputPath = "Build/MyGame.exe";
+        Debug.Log("=== BUILD START ===");
 
-        BuildPlayerOptions options = new BuildPlayerOptions();
+        string[] scenes =
+        {
+            "Assets/Scenes/Main.unity"
+        };
 
-        var scenes = EditorBuildSettings.scenes
-    .Where(s => s.enabled)
-    .Select(s => s.path)
-    .ToArray();
+        BuildPlayerOptions options = new BuildPlayerOptions
+        {
+            scenes = scenes,
+            locationPathName = "Build/MyGame.exe",
+            target = BuildTarget.StandaloneWindows64,
+            options = BuildOptions.None
+        };
 
-        options.scenes = scenes;
+        BuildReport report = BuildPipeline.BuildPlayer(options);
 
-        options.locationPathName = outputPath;
+        Debug.Log("Build Result: " + report.summary.result);
 
-        options.target = BuildTarget.StandaloneWindows64;
+        if (report.summary.result != BuildResult.Succeeded)
+        {
+            throw new System.Exception("BUILD FAILED");
+        }
 
-        options.options = BuildOptions.None;
-
-        BuildPipeline.BuildPlayer(options);
-
-        Debug.Log("Build Success");
+        Debug.Log("BUILD SUCCESS");
     }
 }
